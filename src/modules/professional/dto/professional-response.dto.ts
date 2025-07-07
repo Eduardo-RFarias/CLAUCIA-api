@@ -1,6 +1,5 @@
-import { Expose, Type } from 'class-transformer';
+import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { InstitutionResponseDto } from '../../institution/dto/institution-response.dto';
 
 export class ProfessionalResponseDto {
   @ApiProperty({
@@ -24,12 +23,4 @@ export class ProfessionalResponseDto {
   })
   @Expose()
   photo: string;
-
-  @ApiProperty({
-    description: 'List of institutions where the professional works',
-    type: [InstitutionResponseDto],
-  })
-  @Expose()
-  @Type(() => InstitutionResponseDto)
-  institutions: InstitutionResponseDto[];
 }

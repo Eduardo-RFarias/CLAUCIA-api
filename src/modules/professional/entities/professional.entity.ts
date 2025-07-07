@@ -23,10 +23,12 @@ export class Professional {
     joinColumn: {
       name: 'fk_PROFESSIONAL_coren',
       referencedColumnName: 'coren',
+      foreignKeyConstraintName: 'FK_works_PROFESSIONAL_coren',
     },
     inverseJoinColumn: {
       name: 'fk_INTITUTION_name',
       referencedColumnName: 'name',
+      foreignKeyConstraintName: 'FK_works_INTITUTION_name',
     },
   })
   institutions: Institution[];

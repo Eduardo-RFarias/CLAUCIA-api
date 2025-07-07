@@ -61,6 +61,14 @@ export class InstitutionService {
     return await this.institutionRepository.save(institution);
   }
 
+  async findByProfessional(professionalCoren: string): Promise<Institution[]> {
+    return await this.institutionRepository
+      .createQueryBuilder('institution')
+      .innerJoin('institution.professionals', 'professional')
+      .where('professional.coren = :coren', { coren: professionalCoren })
+      .getMany();
+  }
+
   async remove(name: string): Promise<void> {
     const institution = await this.findOne(name);
     await this.institutionRepository.remove(institution);

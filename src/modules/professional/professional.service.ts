@@ -53,15 +53,12 @@ export class ProfessionalService {
   }
 
   async findAll(): Promise<Professional[]> {
-    return await this.professionalRepository.find({
-      relations: ['institutions'],
-    });
+    return await this.professionalRepository.find();
   }
 
   async findOne(coren: string): Promise<Professional> {
     const professional = await this.professionalRepository.findOne({
       where: { coren },
-      relations: ['institutions'],
     });
 
     if (!professional) {
@@ -114,11 +111,13 @@ export class ProfessionalService {
       }
 
       // Remove institutionNames from the DTO as it's not a direct property
-      const { institutionNames, ...updateData } = updateProfessionalDto;
+      const updateData = { ...updateProfessionalDto };
+      delete updateData.institutionNames;
       Object.assign(professional, updateData);
     } else {
       // Remove institutionNames from the DTO as it's not a direct property
-      const { institutionNames, ...updateData } = updateProfessionalDto;
+      const updateData = { ...updateProfessionalDto };
+      delete updateData.institutionNames;
       Object.assign(professional, updateData);
     }
 

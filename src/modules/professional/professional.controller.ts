@@ -1,15 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseInterceptors,
-  ClassSerializerInterceptor,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { ProfessionalService } from './professional.service';
 import { CreateProfessionalDto, UpdateProfessionalDto, ProfessionalResponseDto } from './dto';
@@ -17,7 +6,6 @@ import { plainToInstance } from 'class-transformer';
 
 @ApiTags('Professionals')
 @Controller('professionals')
-@UseInterceptors(ClassSerializerInterceptor)
 export class ProfessionalController {
   constructor(private readonly professionalService: ProfessionalService) {}
 
@@ -33,7 +21,7 @@ export class ProfessionalController {
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'One or more institutions not found' })
   async create(@Body() createProfessionalDto: CreateProfessionalDto): Promise<ProfessionalResponseDto> {
     const professional = await this.professionalService.create(createProfessionalDto);
-    return plainToInstance(ProfessionalResponseDto, professional);
+    return plainToInstance(ProfessionalResponseDto, professional, { excludeExtraneousValues: true });
   }
 
   @Get()
@@ -41,7 +29,9 @@ export class ProfessionalController {
   @ApiResponse({ status: HttpStatus.OK, description: 'List of all professionals', type: [ProfessionalResponseDto] })
   async findAll(): Promise<ProfessionalResponseDto[]> {
     const professionals = await this.professionalService.findAll();
-    return professionals.map((professional) => plainToInstance(ProfessionalResponseDto, professional));
+    return professionals.map((professional) =>
+      plainToInstance(ProfessionalResponseDto, professional, { excludeExtraneousValues: true }),
+    );
   }
 
   @Get(':coren')
@@ -51,7 +41,7 @@ export class ProfessionalController {
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Professional not found' })
   async findOne(@Param('coren') coren: string): Promise<ProfessionalResponseDto> {
     const professional = await this.professionalService.findOne(coren);
-    return plainToInstance(ProfessionalResponseDto, professional);
+    return plainToInstance(ProfessionalResponseDto, professional, { excludeExtraneousValues: true });
   }
 
   @Patch(':coren')
@@ -69,7 +59,7 @@ export class ProfessionalController {
     @Body() updateProfessionalDto: UpdateProfessionalDto,
   ): Promise<ProfessionalResponseDto> {
     const professional = await this.professionalService.update(coren, updateProfessionalDto);
-    return plainToInstance(ProfessionalResponseDto, professional);
+    return plainToInstance(ProfessionalResponseDto, professional, { excludeExtraneousValues: true });
   }
 
   @Delete(':coren')

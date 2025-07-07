@@ -1,15 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseInterceptors,
-  ClassSerializerInterceptor,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { InstitutionService } from './institution.service';
 import { CreateInstitutionDto, UpdateInstitutionDto, InstitutionResponseDto } from './dto';
@@ -17,7 +6,6 @@ import { plainToInstance } from 'class-transformer';
 
 @ApiTags('Institutions')
 @Controller('institutions')
-@UseInterceptors(ClassSerializerInterceptor)
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
 
@@ -32,7 +20,7 @@ export class InstitutionController {
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Invalid input data' })
   async create(@Body() createInstitutionDto: CreateInstitutionDto): Promise<InstitutionResponseDto> {
     const institution = await this.institutionService.create(createInstitutionDto);
-    return plainToInstance(InstitutionResponseDto, institution);
+    return plainToInstance(InstitutionResponseDto, institution, { excludeExtraneousValues: true });
   }
 
   @Get()
@@ -40,7 +28,9 @@ export class InstitutionController {
   @ApiResponse({ status: HttpStatus.OK, description: 'List of all institutions', type: [InstitutionResponseDto] })
   async findAll(): Promise<InstitutionResponseDto[]> {
     const institutions = await this.institutionService.findAll();
-    return institutions.map((institution) => plainToInstance(InstitutionResponseDto, institution));
+    return institutions.map((institution) =>
+      plainToInstance(InstitutionResponseDto, institution, { excludeExtraneousValues: true }),
+    );
   }
 
   @Get(':name')
@@ -50,7 +40,7 @@ export class InstitutionController {
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Institution not found' })
   async findOne(@Param('name') name: string): Promise<InstitutionResponseDto> {
     const institution = await this.institutionService.findOne(name);
-    return plainToInstance(InstitutionResponseDto, institution);
+    return plainToInstance(InstitutionResponseDto, institution, { excludeExtraneousValues: true });
   }
 
   @Patch(':name')
@@ -64,7 +54,22 @@ export class InstitutionController {
     @Body() updateInstitutionDto: UpdateInstitutionDto,
   ): Promise<InstitutionResponseDto> {
     const institution = await this.institutionService.update(name, updateInstitutionDto);
-    return plainToInstance(InstitutionResponseDto, institution);
+    return plainToInstance(InstitutionResponseDto, institution, { excludeExtraneousValues: true });
+  }
+
+  @Get('professional/:coren')
+  @ApiOperation({ summary: 'Get all institutions for a specific professional' })
+  @ApiParam({ name: 'coren', description: 'Professional COREN', example: 'COREN-SP-123456' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'List of institutions for the professional',
+    type: [InstitutionResponseDto],
+  })
+  async findByProfessional(@Param('coren') coren: string): Promise<InstitutionResponseDto[]> {
+    const institutions = await this.institutionService.findByProfessional(coren);
+    return institutions.map((institution) =>
+      plainToInstance(InstitutionResponseDto, institution, { excludeExtraneousValues: true }),
+    );
   }
 
   @Delete(':name')
