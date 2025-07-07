@@ -39,4 +39,13 @@ export class CreatePatientDto {
   @IsString()
   @MaxLength(255)
   photo?: string;
+
+  @ApiProperty({
+    description: 'The name of the institution where the patient is treated',
+    example: 'Hospital São Paulo',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(255)
+  institutionName: string;
 }

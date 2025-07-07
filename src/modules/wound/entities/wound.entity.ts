@@ -16,7 +16,10 @@ export class Wound {
   @Column({ name: 'FK_PATIENT_id' })
   patientId: number;
 
-  @ManyToOne(() => Patient, (patient) => patient.wounds, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Patient, (patient) => patient.wounds, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'FK_PATIENT_id', foreignKeyConstraintName: 'FK_WOUND_PATIENT_id' })
   patient: Patient;
 

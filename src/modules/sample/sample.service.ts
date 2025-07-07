@@ -3,19 +3,31 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Sample } from './entities/sample.entity';
 import { CreateSampleDto, UpdateSampleDto } from './dto';
+import { Professional } from '../professional/entities/professional.entity';
 
 @Injectable()
 export class SampleService {
   constructor(
     @InjectRepository(Sample)
     private readonly sampleRepository: Repository<Sample>,
+    @InjectRepository(Professional)
+    private readonly professionalRepository: Repository<Professional>,
   ) {}
 
   async create(createSampleDto: CreateSampleDto): Promise<Sample> {
+    const professional = await this.professionalRepository.findOne({
+      where: { coren: createSampleDto.professionalCoren },
+    });
+
+    if (!professional) {
+      throw new NotFoundException(`Professional with COREN "${createSampleDto.professionalCoren}" not found`);
+    }
+
     const sample = this.sampleRepository.create({
       ...createSampleDto,
-      professionalCoren: createSampleDto.professionalCoren || null,
+      professional: professional,
     });
+
     return await this.sampleRepository.save(sample);
   }
 

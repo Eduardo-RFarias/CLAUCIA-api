@@ -30,6 +30,19 @@ export class PatientController {
     return patients.map((patient) => plainToInstance(PatientResponseDto, patient, { excludeExtraneousValues: true }));
   }
 
+  @Get('institution/:institutionName')
+  @ApiOperation({ summary: 'Get all patients for a specific institution' })
+  @ApiParam({ name: 'institutionName', description: 'Institution name', example: 'Hospital São Paulo' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'List of patients for the institution',
+    type: [PatientResponseDto],
+  })
+  async findByInstitution(@Param('institutionName') institutionName: string): Promise<PatientResponseDto[]> {
+    const patients = await this.patientService.findByInstitution(institutionName);
+    return patients.map((patient) => plainToInstance(PatientResponseDto, patient, { excludeExtraneousValues: true }));
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Get a patient by ID' })
   @ApiParam({ name: 'id', description: 'Patient ID', example: 1 })

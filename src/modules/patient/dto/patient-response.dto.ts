@@ -37,4 +37,11 @@ export class PatientResponseDto {
   })
   @Expose()
   photo?: string;
+
+  @ApiProperty({
+    description: 'The name of the institution where the patient is treated',
+    example: 'Hospital São Paulo',
+  })
+  @Expose()
+  institutionName: string;
 }

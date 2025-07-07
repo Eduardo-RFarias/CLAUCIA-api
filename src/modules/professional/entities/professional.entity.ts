@@ -26,9 +26,9 @@ export class Professional {
       foreignKeyConstraintName: 'FK_works_PROFESSIONAL_coren',
     },
     inverseJoinColumn: {
-      name: 'fk_INTITUTION_name',
+      name: 'fk_INSTITUTION_name',
       referencedColumnName: 'name',
-      foreignKeyConstraintName: 'FK_works_INTITUTION_name',
+      foreignKeyConstraintName: 'FK_works_INSTITUTION_name',
     },
   })
   institutions: Institution[];

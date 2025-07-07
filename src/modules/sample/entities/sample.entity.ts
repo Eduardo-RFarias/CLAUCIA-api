@@ -31,11 +31,17 @@ export class Sample {
   @Column({ name: 'FK_PROFESSIONAL_coren', nullable: true })
   professionalCoren: string | null;
 
-  @ManyToOne('Wound', (wound: Wound) => wound.samples, { onDelete: 'CASCADE' })
+  @ManyToOne('Wound', (wound: Wound) => wound.samples, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'FK_WOUND_id', foreignKeyConstraintName: 'FK_SAMPLE_WOUND_id' })
   wound: Wound;
 
-  @ManyToOne(() => Professional, (professional) => professional, { onDelete: 'SET NULL' })
+  @ManyToOne(() => Professional, (professional) => professional, {
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'FK_PROFESSIONAL_coren', foreignKeyConstraintName: 'FK_SAMPLE_PROFESSIONAL_coren' })
   professional: Professional | null;
 }

@@ -70,8 +70,7 @@ export class CreateSampleDto {
     example: 'COREN123456',
     required: false,
   })
-  @IsOptional()
   @IsString()
   @MaxLength(255)
-  professionalCoren?: string;
+  professionalCoren: string;
 }
