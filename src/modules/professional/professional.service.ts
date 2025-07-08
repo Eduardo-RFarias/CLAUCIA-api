@@ -29,14 +29,14 @@ export class ProfessionalService {
 
     // Handle institutions relationship
     let institutions: Institution[] = [];
-    if (createProfessionalDto.institutionNames && createProfessionalDto.institutionNames.length > 0) {
+    if (createProfessionalDto.institution_names && createProfessionalDto.institution_names.length > 0) {
       institutions = await this.institutionRepository.find({
-        where: { name: In(createProfessionalDto.institutionNames) },
+        where: { name: In(createProfessionalDto.institution_names) },
       });
 
       // Check if all institutions were found
       const foundNames = institutions.map((inst) => inst.name);
-      const notFoundNames = createProfessionalDto.institutionNames.filter((name) => !foundNames.includes(name));
+      const notFoundNames = createProfessionalDto.institution_names.filter((name) => !foundNames.includes(name));
 
       if (notFoundNames.length > 0) {
         throw new NotFoundException(`Institutions not found: ${notFoundNames.join(', ')}`);
@@ -91,15 +91,15 @@ export class ProfessionalService {
     }
 
     // Handle institutions relationship update
-    if (updateProfessionalDto.institutionNames !== undefined) {
-      if (updateProfessionalDto.institutionNames.length > 0) {
+    if (updateProfessionalDto.institution_names !== undefined) {
+      if (updateProfessionalDto.institution_names.length > 0) {
         const institutions = await this.institutionRepository.find({
-          where: { name: In(updateProfessionalDto.institutionNames) },
+          where: { name: In(updateProfessionalDto.institution_names) },
         });
 
         // Check if all institutions were found
         const foundNames = institutions.map((inst) => inst.name);
-        const notFoundNames = updateProfessionalDto.institutionNames.filter((name) => !foundNames.includes(name));
+        const notFoundNames = updateProfessionalDto.institution_names.filter((name) => !foundNames.includes(name));
 
         if (notFoundNames.length > 0) {
           throw new NotFoundException(`Institutions not found: ${notFoundNames.join(', ')}`);
@@ -110,14 +110,14 @@ export class ProfessionalService {
         professional.institutions = [];
       }
 
-      // Remove institutionNames from the DTO as it's not a direct property
+      // Remove institution_names from the DTO as it's not a direct property
       const updateData = { ...updateProfessionalDto };
-      delete updateData.institutionNames;
+      delete updateData.institution_names;
       Object.assign(professional, updateData);
     } else {
-      // Remove institutionNames from the DTO as it's not a direct property
+      // Remove institution_names from the DTO as it's not a direct property
       const updateData = { ...updateProfessionalDto };
-      delete updateData.institutionNames;
+      delete updateData.institution_names;
       Object.assign(professional, updateData);
     }
 

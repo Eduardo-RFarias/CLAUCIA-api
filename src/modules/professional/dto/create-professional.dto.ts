@@ -50,5 +50,5 @@ export class CreateProfessionalDto {
   @IsArray()
   @IsOptional()
   @IsString({ each: true })
-  institutionNames?: string[];
+  institution_names?: string[];
 }

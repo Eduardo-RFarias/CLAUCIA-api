@@ -50,5 +50,5 @@ export class WoundResponseDto {
     example: 1,
   })
   @Expose()
-  patientId: number;
+  patient_id: number;
 }

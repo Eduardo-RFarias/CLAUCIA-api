@@ -16,11 +16,11 @@ export class SampleService {
 
   async create(createSampleDto: CreateSampleDto): Promise<Sample> {
     const professional = await this.professionalRepository.findOne({
-      where: { coren: createSampleDto.professionalCoren },
+      where: { coren: createSampleDto.professional_coren },
     });
 
     if (!professional) {
-      throw new NotFoundException(`Professional with COREN "${createSampleDto.professionalCoren}" not found`);
+      throw new NotFoundException(`Professional with COREN "${createSampleDto.professional_coren}" not found`);
     }
 
     const sample = this.sampleRepository.create({

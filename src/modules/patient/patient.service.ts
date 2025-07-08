@@ -16,10 +16,10 @@ export class PatientService {
   async create(createPatientDto: CreatePatientDto): Promise<Patient> {
     // Validate institution exists (required)
     try {
-      await this.institutionService.findOne(createPatientDto.institutionName);
+      await this.institutionService.findOne(createPatientDto.institution_name);
     } catch (error) {
       if (error instanceof NotFoundException) {
-        throw new BadRequestException(`Institution "${createPatientDto.institutionName}" not found`);
+        throw new BadRequestException(`Institution "${createPatientDto.institution_name}" not found`);
       }
       throw error;
     }
@@ -54,12 +54,12 @@ export class PatientService {
     const patient = await this.findOne(id);
 
     // Validate institution exists if being updated
-    if (updatePatientDto.institutionName !== undefined) {
+    if (updatePatientDto.institution_name !== undefined) {
       try {
-        await this.institutionService.findOne(updatePatientDto.institutionName);
+        await this.institutionService.findOne(updatePatientDto.institution_name);
       } catch (error) {
         if (error instanceof NotFoundException) {
-          throw new BadRequestException(`Institution "${updatePatientDto.institutionName}" not found`);
+          throw new BadRequestException(`Institution "${updatePatientDto.institution_name}" not found`);
         }
         throw error;
       }

@@ -63,7 +63,7 @@ export class CreateSampleDto {
   })
   @IsNumber()
   @IsPositive()
-  woundId: number;
+  wound_id: number;
 
   @ApiProperty({
     description: 'The COREN of the professional who created this sample',
@@ -72,5 +72,5 @@ export class CreateSampleDto {
   })
   @IsString()
   @MaxLength(255)
-  professionalCoren: string;
+  professional_coren: string;
 }

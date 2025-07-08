@@ -61,7 +61,7 @@ export class SampleResponseDto {
     example: 1,
   })
   @Expose()
-  woundId: number;
+  wound_id: number;
 
   @ApiProperty({
     description: 'The COREN of the professional who created this sample',
@@ -69,7 +69,7 @@ export class SampleResponseDto {
     required: false,
   })
   @Expose()
-  professionalCoren: string | null;
+  professional_coren: string | null;
 
   @ApiProperty({
     description: 'The creation timestamp of the sample record',

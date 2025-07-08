@@ -39,5 +39,5 @@ export class CreateWoundDto {
   })
   @IsNumber()
   @IsPositive()
-  patientId: number;
+  patient_id: number;
 }

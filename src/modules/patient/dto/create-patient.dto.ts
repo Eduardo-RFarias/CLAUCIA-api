@@ -47,7 +47,7 @@ export class CreatePatientDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
-  institutionName: string;
+  institution_name: string;
 
   @ApiProperty({
     description: 'The medical conditions of the patient',
