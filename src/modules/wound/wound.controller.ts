@@ -1,10 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, ParseIntPipe } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { WoundService } from './wound.service';
 import { CreateWoundDto, UpdateWoundDto, WoundResponseDto } from './dto';
 import { plainToInstance } from 'class-transformer';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('Wounds')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('wounds')
 export class WoundController {
   constructor(private readonly woundService: WoundService) {}

@@ -1,10 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { ProfessionalService } from './professional.service';
 import { CreateProfessionalDto, UpdateProfessionalDto, ProfessionalResponseDto } from './dto';
 import { plainToInstance } from 'class-transformer';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('Professionals')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('professionals')
 export class ProfessionalController {
   constructor(private readonly professionalService: ProfessionalService) {}

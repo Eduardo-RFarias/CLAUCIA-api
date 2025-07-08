@@ -1,10 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { InstitutionService } from './institution.service';
 import { CreateInstitutionDto, UpdateInstitutionDto, InstitutionResponseDto } from './dto';
 import { plainToInstance } from 'class-transformer';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('Institutions')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('institutions')
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}

@@ -10,6 +10,7 @@ import { ProfessionalModule } from './modules/professional/professional.module';
 import { PatientModule } from './modules/patient/patient.module';
 import { WoundModule } from './modules/wound/wound.module';
 import { SampleModule } from './modules/sample/sample.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { Institution } from './modules/institution/entities/institution.entity';
 import { Professional } from './modules/professional/entities/professional.entity';
 import { Patient } from './modules/patient/entities/patient.entity';
@@ -53,6 +54,7 @@ import { Sample } from './modules/sample/entities/sample.entity';
     PatientModule,
     WoundModule,
     SampleModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [

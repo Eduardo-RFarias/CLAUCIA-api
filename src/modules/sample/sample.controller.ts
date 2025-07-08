@@ -1,10 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, ParseIntPipe } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { SampleService } from './sample.service';
 import { CreateSampleDto, UpdateSampleDto, SampleResponseDto } from './dto';
 import { plainToInstance } from 'class-transformer';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('Samples')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('samples')
 export class SampleController {
   constructor(private readonly sampleService: SampleService) {}

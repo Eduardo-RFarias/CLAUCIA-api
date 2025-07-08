@@ -34,6 +34,14 @@ export class AppConfigService {
     return this.configService.get('MYSQL_DATABASE')!;
   }
 
+  get jwtSecret(): string {
+    return this.configService.get('JWT_SECRET')!;
+  }
+
+  get jwtExpiresIn(): string {
+    return this.configService.get('JWT_EXPIRES_IN')!;
+  }
+
   get throttleTtl(): number {
     return this.configService.get('THROTTLE_TTL')!;
   }

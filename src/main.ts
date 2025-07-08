@@ -26,6 +26,7 @@ async function bootstrap() {
         .setDescription('Claucia API serves the Claucia mobile app.')
         .setVersion('0.0.1')
         .setLicense('MIT', 'https://opensource.org/licenses/MIT')
+        .addBearerAuth()
         .build(),
     ),
   );
