@@ -48,4 +48,15 @@ export class CreatePatientDto {
   @IsNotEmpty()
   @MaxLength(255)
   institutionName: string;
+
+  @ApiProperty({
+    description: 'The medical conditions of the patient',
+    example: 'Diabetes, Hypertension',
+    required: false,
+    maxLength: 1024,
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(1024)
+  medical_conditions?: string;
 }

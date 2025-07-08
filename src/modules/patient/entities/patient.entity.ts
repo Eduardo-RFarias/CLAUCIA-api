@@ -19,6 +19,15 @@ export class Patient {
   @Column({ type: 'varchar', length: 255, nullable: true })
   photo: string;
 
+  @Column({ type: 'varchar', length: 1024, nullable: true })
+  medical_conditions?: string;
+
+  @Column({ type: 'timestamp', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
+  created_at: Date;
+
+  @Column({ type: 'timestamp', name: 'updated_at', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  updated_at: Date;
+
   @Column({ name: 'institution_name', type: 'varchar', length: 255, nullable: false })
   institutionName: string;
 

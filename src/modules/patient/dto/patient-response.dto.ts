@@ -44,4 +44,26 @@ export class PatientResponseDto {
   })
   @Expose()
   institutionName: string;
+
+  @ApiProperty({
+    description: 'The medical conditions of the patient',
+    example: 'Diabetes, Hypertension',
+    required: false,
+  })
+  @Expose()
+  medical_conditions?: string;
+
+  @ApiProperty({
+    description: 'The creation timestamp of the patient record',
+    example: '2024-07-08T12:34:56.000Z',
+  })
+  @Expose()
+  created_at: Date;
+
+  @ApiProperty({
+    description: 'The last update timestamp of the patient record',
+    example: '2024-07-08T12:34:56.000Z',
+  })
+  @Expose()
+  updated_at: Date;
 }
