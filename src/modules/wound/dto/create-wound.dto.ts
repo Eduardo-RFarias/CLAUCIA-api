@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, MaxLength, IsNumber, IsPositive } from 'class-validator';
+import { IsString, IsNotEmpty, MaxLength, IsNumber, IsPositive, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateWoundDto {
@@ -21,6 +21,17 @@ export class CreateWoundDto {
   @IsNotEmpty()
   @MaxLength(255)
   origin: string;
+
+  @ApiProperty({
+    description: 'Description of the wound',
+    example: 'Chronic ulcer on left leg',
+    required: false,
+    maxLength: 1024,
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(1024)
+  description?: string;
 
   @ApiProperty({
     description: 'The ID of the patient this wound belongs to',

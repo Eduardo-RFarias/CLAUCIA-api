@@ -45,6 +45,7 @@ import { Sample } from './modules/sample/entities/sample.entity';
         migrations: ['dist/migrations/*.js'],
         synchronize: false,
         migrationsRun: true,
+        timezone: 'Z',
       }),
     }),
     InstitutionModule,

@@ -13,6 +13,15 @@ export class Wound {
   @Column({ type: 'varchar', length: 255 })
   origin: string;
 
+  @Column({ type: 'varchar', length: 1024, nullable: true })
+  description?: string;
+
+  @Column({ type: 'timestamp', name: 'created_at', default: () => 'CURRENT_TIMESTAMP' })
+  created_at: Date;
+
+  @Column({ type: 'timestamp', name: 'updated_at', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  updated_at: Date;
+
   @Column({ name: 'FK_PATIENT_id' })
   patientId: number;
 

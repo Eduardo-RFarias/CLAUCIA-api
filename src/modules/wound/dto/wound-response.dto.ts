@@ -24,6 +24,28 @@ export class WoundResponseDto {
   origin: string;
 
   @ApiProperty({
+    description: 'Description of the wound',
+    example: 'Chronic ulcer on left leg',
+    required: false,
+  })
+  @Expose()
+  description?: string;
+
+  @ApiProperty({
+    description: 'The creation timestamp of the wound record',
+    example: '2024-07-08T12:34:56.000Z',
+  })
+  @Expose()
+  created_at: Date;
+
+  @ApiProperty({
+    description: 'The last update timestamp of the wound record',
+    example: '2024-07-08T12:34:56.000Z',
+  })
+  @Expose()
+  updated_at: Date;
+
+  @ApiProperty({
     description: 'The ID of the patient this wound belongs to',
     example: 1,
   })
