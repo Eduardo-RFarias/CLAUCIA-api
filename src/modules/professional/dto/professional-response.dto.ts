@@ -23,4 +23,18 @@ export class ProfessionalResponseDto {
   })
   @Expose()
   photo: string;
+
+  @ApiProperty({
+    description: 'The creation timestamp of the professional record',
+    example: '2024-07-08T12:34:56.000Z',
+  })
+  @Expose()
+  created_at: Date;
+
+  @ApiProperty({
+    description: 'The last update timestamp of the professional record',
+    example: '2024-07-08T12:34:56.000Z',
+  })
+  @Expose()
+  updated_at: Date;
 }
