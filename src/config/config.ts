@@ -36,9 +36,6 @@ class EnvironmentVariables {
   JWT_SECRET: string =
     'F6!Sre09GYlpV4-!GoygJUPum6FYf5UkH=xZ7iWZ5A4/!YHPQ!TsTD0VT/8QNjiJ8lhrQYC?mvnN-9qXj0QAHHfijNZLZLcYBJ?SWFhzL7Ds5kk2!?O?M8qiWz6sR3?cWM=S0Zi6YQZ?yNVWyLs9s/G7ht1?Ttg7S?!-Ue-Qj81KU4!!VUHHXdciod11kRxrR79k24PaT7xYiWeQt5aH57Fn8NPfqglompZhY!3ggfFBC!B-cDQTnz/QeTecQiqs';
 
-  @IsString()
-  JWT_EXPIRES_IN: string = '1h';
-
   @IsNumber()
   THROTTLE_TTL: number = 60;
 

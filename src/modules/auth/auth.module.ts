@@ -16,7 +16,6 @@ import { AppConfigService } from '../../config/app-config.service';
       inject: [AppConfigService],
       useFactory: (config: AppConfigService) => ({
         secret: config.jwtSecret,
-        signOptions: { expiresIn: config.jwtExpiresIn },
       }),
     }),
     ProfessionalModule,
