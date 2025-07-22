@@ -23,7 +23,7 @@ export class Wound {
   updated_at: Date;
 
   @Column({ name: 'FK_PATIENT_id' })
-  patientId: number;
+  patient_id: number;
 
   @ManyToOne(() => Patient, (patient) => patient.wounds, {
     onDelete: 'CASCADE',

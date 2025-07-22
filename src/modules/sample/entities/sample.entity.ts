@@ -32,10 +32,10 @@ export class Sample {
   updated_at: Date;
 
   @Column({ name: 'FK_WOUND_id' })
-  woundId: number;
+  wound_id: number;
 
   @Column({ name: 'FK_PROFESSIONAL_coren', nullable: true })
-  professionalCoren: string | null;
+  professional_coren: string | null;
 
   @ManyToOne('Wound', (wound: Wound) => wound.samples, {
     onDelete: 'CASCADE',

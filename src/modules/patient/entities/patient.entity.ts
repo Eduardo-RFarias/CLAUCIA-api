@@ -29,7 +29,7 @@ export class Patient {
   updated_at: Date;
 
   @Column({ name: 'institution_name', type: 'varchar', length: 255, nullable: false })
-  institutionName: string;
+  institution_name: string;
 
   @ManyToOne('Institution', (institution: Institution) => institution.patients, {
     onDelete: 'CASCADE',

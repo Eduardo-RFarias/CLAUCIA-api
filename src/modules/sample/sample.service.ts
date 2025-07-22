@@ -49,7 +49,7 @@ export class SampleService {
 
   async findByWound(woundId: number): Promise<Sample[]> {
     return await this.sampleRepository.find({
-      where: { woundId },
+      where: { wound_id: woundId },
     });
   }
 

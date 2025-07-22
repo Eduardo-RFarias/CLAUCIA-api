@@ -34,7 +34,7 @@ export class WoundService {
 
   async findByPatient(patientId: number): Promise<Wound[]> {
     return await this.woundRepository.find({
-      where: { patientId },
+      where: { patient_id: patientId },
     });
   }
 

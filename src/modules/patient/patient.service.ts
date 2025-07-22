@@ -46,7 +46,7 @@ export class PatientService {
 
   async findByInstitution(institutionName: string): Promise<Patient[]> {
     return await this.patientRepository.find({
-      where: { institutionName },
+      where: { institution_name: institutionName },
     });
   }
 
