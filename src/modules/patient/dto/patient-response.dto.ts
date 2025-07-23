@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import { IsUrl } from 'class-validator';
+import { IsOptional } from 'class-validator';
 
 export class PatientResponseDto {
   @ApiProperty({
@@ -31,11 +33,13 @@ export class PatientResponseDto {
   sex: string;
 
   @ApiProperty({
-    description: 'The photo of the patient',
-    example: 'patient-photo.jpg',
+    description: 'The photo of the patient (url)',
+    example: 'https://example.com/patient-photo.jpg',
     required: false,
   })
   @Expose()
+  @IsOptional()
+  @IsUrl()
   photo?: string;
 
   @ApiProperty({

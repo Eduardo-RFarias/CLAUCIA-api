@@ -33,13 +33,13 @@ export class CreateProfessionalDto {
   name: string;
 
   @ApiPropertyOptional({
-    description: 'URL or path to the professional photo',
-    example: 'https://example.com/photos/maria-silva.jpg',
-    maxLength: 255,
+    description: 'The photo of the professional (data:image/{format};base64)',
+    example:
+      'data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEXMzMz////T3Ph/AAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg==',
+    required: false,
   })
   @IsString()
   @IsOptional()
-  @MaxLength(255)
   photo?: string;
 
   @ApiPropertyOptional({

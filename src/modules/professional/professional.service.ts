@@ -5,6 +5,7 @@ import * as argon2 from 'argon2';
 import { Professional } from './entities/professional.entity';
 import { Institution } from '../institution/entities/institution.entity';
 import { CreateProfessionalDto, UpdateProfessionalDto } from './dto';
+import { UploadService } from '../../shared/services/upload/upload.service';
 
 @Injectable()
 export class ProfessionalService {
@@ -13,6 +14,7 @@ export class ProfessionalService {
     private readonly professionalRepository: Repository<Professional>,
     @InjectRepository(Institution)
     private readonly institutionRepository: Repository<Institution>,
+    private readonly uploadService: UploadService,
   ) {}
 
   async create(createProfessionalDto: CreateProfessionalDto): Promise<Professional> {
@@ -26,6 +28,12 @@ export class ProfessionalService {
 
     // Hash password with argon2
     const hashedPassword = await argon2.hash(createProfessionalDto.password);
+
+    // Handle photo upload if provided
+    if (createProfessionalDto.photo) {
+      const photoUrl = await this.uploadService.uploadFile(createProfessionalDto.photo);
+      createProfessionalDto.photo = photoUrl;
+    }
 
     // Handle institutions relationship
     let institutions: Institution[] = [];
@@ -90,6 +98,17 @@ export class ProfessionalService {
       updateProfessionalDto.password = await argon2.hash(updateProfessionalDto.password);
     }
 
+    // Handle photo upload if provided
+    if (updateProfessionalDto.photo) {
+      // Delete old photo if exists
+      if (professional.photo) {
+        await this.uploadService.deleteFile(professional.photo);
+      }
+
+      const photoUrl = await this.uploadService.uploadFile(updateProfessionalDto.photo);
+      updateProfessionalDto.photo = photoUrl;
+    }
+
     // Handle institutions relationship update
     if (updateProfessionalDto.institution_names !== undefined) {
       if (updateProfessionalDto.institution_names.length > 0) {
@@ -126,6 +145,12 @@ export class ProfessionalService {
 
   async remove(coren: string): Promise<void> {
     const professional = await this.findOne(coren);
+
+    // Delete associated photo file if exists
+    if (professional.photo) {
+      await this.uploadService.deleteFile(professional.photo);
+    }
+
     await this.professionalRepository.remove(professional);
   }
 

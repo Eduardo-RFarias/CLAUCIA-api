@@ -10,8 +10,8 @@ export class SampleResponseDto {
   id: number;
 
   @ApiProperty({
-    description: 'The photo of the sample',
-    example: 'sample-photo.jpg',
+    description: 'The photo of the sample (url)',
+    example: '/uploads/images/550e8400-e29b-41d4-a716-446655440000.jpg',
     required: false,
   })
   @Expose()

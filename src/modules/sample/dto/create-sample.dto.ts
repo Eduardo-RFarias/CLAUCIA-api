@@ -3,13 +3,13 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateSampleDto {
   @ApiProperty({
-    description: 'The photo of the sample',
-    example: 'sample-photo.jpg',
+    description: 'The photo of the sample (data:image/{format};base64)',
+    example:
+      'data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEXMzMz////T3Ph/AAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg==',
     required: false,
   })
   @IsOptional()
   @IsString()
-  @MaxLength(255)
   photo?: string;
 
   @ApiProperty({

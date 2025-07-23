@@ -31,13 +31,13 @@ export class CreatePatientDto {
   sex: string;
 
   @ApiProperty({
-    description: 'The photo of the patient',
-    example: 'patient-photo.jpg',
+    description: 'The photo of the patient (data:image/{format};base64)',
+    example:
+      'data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEXMzMz////T3Ph/AAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg==',
     required: false,
   })
   @IsOptional()
   @IsString()
-  @MaxLength(255)
   photo?: string;
 
   @ApiProperty({

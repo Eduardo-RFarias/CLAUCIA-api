@@ -7,12 +7,29 @@ import { AppConfigService } from './config/app-config.service';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { logger: new ConsoleLogger({ json: true }) });
+  const app = await NestFactory.create(AppModule, {
+    logger: new ConsoleLogger({ json: process.env.NODE_ENV === 'production' }),
+  });
 
   const appConfigService = app.get(AppConfigService);
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-  app.use(compression());
+
+  // Only use compression in development (Nginx handles it in production)
+  if (process.env.NODE_ENV !== 'production') {
+    app.use(
+      compression({
+        filter: (req, res) => {
+          // Don't compress images - they're already compressed formats
+          if (req.url?.startsWith('/uploads/')) {
+            return false;
+          }
+          return compression.filter(req, res);
+        },
+      }),
+    );
+  }
+
   app.use(helmet());
   app.enableCors();
 

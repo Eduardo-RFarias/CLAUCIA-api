@@ -16,6 +16,7 @@ import { Professional } from './modules/professional/entities/professional.entit
 import { Patient } from './modules/patient/entities/patient.entity';
 import { Wound } from './modules/wound/entities/wound.entity';
 import { Sample } from './modules/sample/entities/sample.entity';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { Sample } from './modules/sample/entities/sample.entity';
     WoundModule,
     SampleModule,
     AuthModule,
+    SharedModule,
   ],
   controllers: [],
   providers: [

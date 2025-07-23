@@ -17,12 +17,12 @@ export class ProfessionalResponseDto {
   name: string;
 
   @ApiProperty({
-    description: 'URL or path to the professional photo',
-    example: 'https://example.com/photos/maria-silva.jpg',
-    nullable: true,
+    description: 'The photo of the professional (url)',
+    example: '/uploads/images/550e8400-e29b-41d4-a716-446655440000.jpg',
+    required: false,
   })
   @Expose()
-  photo: string;
+  photo?: string;
 
   @ApiProperty({
     description: 'The creation timestamp of the professional record',
