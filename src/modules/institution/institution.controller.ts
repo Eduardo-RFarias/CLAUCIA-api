@@ -3,11 +3,13 @@ import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@ne
 import { InstitutionService } from './institution.service';
 import { CreateInstitutionDto, UpdateInstitutionDto, InstitutionResponseDto } from './dto';
 import { plainToInstance } from 'class-transformer';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @ApiTags('Institutions')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(RolesGuard)
+@Roles('institution')
 @Controller('institutions')
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
@@ -61,6 +63,7 @@ export class InstitutionController {
   }
 
   @Get('professional/:coren')
+  @Roles('professional', 'institution')
   @ApiOperation({ summary: 'Get all institutions for a specific professional' })
   @ApiParam({ name: 'coren', description: 'Professional COREN', example: 'COREN-SP-123456' })
   @ApiResponse({

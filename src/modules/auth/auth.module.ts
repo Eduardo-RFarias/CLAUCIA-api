@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
 import { ProfessionalModule } from '../professional/professional.module';
+import { InstitutionModule } from '../institution/institution.module';
 import { AppConfigModule } from '../../config/config.module';
 import { AppConfigService } from '../../config/app-config.service';
 
@@ -19,6 +20,7 @@ import { AppConfigService } from '../../config/app-config.service';
       }),
     }),
     ProfessionalModule,
+    InstitutionModule,
     AppConfigModule,
   ],
   controllers: [AuthController],

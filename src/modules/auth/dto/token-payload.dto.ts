@@ -1,3 +1,4 @@
 export class TokenPayloadDto {
-  coren: string;
+  identifier: string; // coren for professional, name for institution
+  role: 'professional' | 'institution';
 }

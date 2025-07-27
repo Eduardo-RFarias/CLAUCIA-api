@@ -3,11 +3,13 @@ import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@ne
 import { PatientService } from './patient.service';
 import { CreatePatientDto, UpdatePatientDto, PatientResponseDto } from './dto';
 import { plainToInstance } from 'class-transformer';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @ApiTags('Patients')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(RolesGuard)
+@Roles('professional')
 @Controller('patients')
 export class PatientController {
   constructor(private readonly patientService: PatientService) {}

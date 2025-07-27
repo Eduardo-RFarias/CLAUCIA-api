@@ -15,10 +15,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(payload: any): TokenPayloadDto | null {
-    if (!payload.coren) {
+    if (!payload.identifier || !payload.role) {
       return null;
     }
 
-    return { coren: payload.coren };
+    if (payload.role !== 'professional' && payload.role !== 'institution') {
+      return null;
+    }
+
+    return {
+      identifier: payload.identifier,
+      role: payload.role,
+    };
   }
 }

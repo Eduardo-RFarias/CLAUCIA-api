@@ -3,11 +3,13 @@ import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@ne
 import { ProfessionalService } from './professional.service';
 import { CreateProfessionalDto, UpdateProfessionalDto, ProfessionalResponseDto } from './dto';
 import { plainToInstance } from 'class-transformer';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @ApiTags('Professionals')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(RolesGuard)
+@Roles('institution', 'professional')
 @Controller('professionals')
 export class ProfessionalController {
   constructor(private readonly professionalService: ProfessionalService) {}

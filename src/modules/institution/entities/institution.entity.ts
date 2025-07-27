@@ -1,4 +1,5 @@
 import { Entity, PrimaryColumn, ManyToMany, OneToMany, Column } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import { Professional } from '../../professional/entities/professional.entity';
 import type { Patient } from '../../patient/entities/patient.entity';
 
@@ -6,6 +7,10 @@ import type { Patient } from '../../patient/entities/patient.entity';
 export class Institution {
   @PrimaryColumn({ type: 'varchar', length: 255 })
   name: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  @Exclude()
+  password: string;
 
   @ManyToMany(() => Professional, (professional) => professional.institutions)
   professionals: Professional[];

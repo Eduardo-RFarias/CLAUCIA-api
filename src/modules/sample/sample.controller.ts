@@ -3,11 +3,13 @@ import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@ne
 import { SampleService } from './sample.service';
 import { CreateSampleDto, UpdateSampleDto, SampleResponseDto } from './dto';
 import { plainToInstance } from 'class-transformer';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @ApiTags('Samples')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(RolesGuard)
+@Roles('professional')
 @Controller('samples')
 export class SampleController {
   constructor(private readonly sampleService: SampleService) {}

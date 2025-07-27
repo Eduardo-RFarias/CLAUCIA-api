@@ -3,11 +3,13 @@ import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@ne
 import { WoundService } from './wound.service';
 import { CreateWoundDto, UpdateWoundDto, WoundResponseDto } from './dto';
 import { plainToInstance } from 'class-transformer';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @ApiTags('Wounds')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(RolesGuard)
+@Roles('professional')
 @Controller('wounds')
 export class WoundController {
   constructor(private readonly woundService: WoundService) {}
