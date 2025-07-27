@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as argon2 from 'argon2';
 import { Institution } from './entities/institution.entity';
 import { CreateInstitutionDto, UpdateInstitutionDto } from './dto';
 
@@ -20,7 +21,14 @@ export class InstitutionService {
       throw new ConflictException(`Institution with name "${createInstitutionDto.name}" already exists`);
     }
 
-    const institution = this.institutionRepository.create(createInstitutionDto);
+    // Hash the password before saving
+    const hashedPassword = await argon2.hash(createInstitutionDto.password);
+
+    const institution = this.institutionRepository.create({
+      ...createInstitutionDto,
+      password: hashedPassword,
+    });
+
     return await this.institutionRepository.save(institution);
   }
 
@@ -72,5 +80,24 @@ export class InstitutionService {
   async remove(name: string): Promise<void> {
     const institution = await this.findOne(name);
     await this.institutionRepository.remove(institution);
+  }
+
+  async findByNameWithPassword(name: string): Promise<Institution> {
+    const institution = await this.institutionRepository.findOne({
+      where: { name },
+      relations: ['professionals'],
+      select: ['name', 'password'], // Explicitly include password
+    });
+
+    if (!institution) {
+      throw new NotFoundException(`Institution with name "${name}" not found`);
+    }
+
+    return institution;
+  }
+
+  async verifyPassword(name: string, password: string): Promise<boolean> {
+    const institution = await this.findByNameWithPassword(name);
+    return await argon2.verify(institution.password, password);
   }
 }

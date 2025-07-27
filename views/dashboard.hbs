@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Dashboard</h2>
+            <a href="/manage/professionals/new" class="btn btn-primary">Create New Professional</a>
+        </div>
+
+        {{#if success}}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{success}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {{/if}}
+
+        {{#if error}}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{error}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {{/if}}
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Professionals</h5>
+            </div>
+            <div class="card-body">
+                {{#if professionals.length}}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>COREN</th>
+                                <th>Name</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each professionals}}
+                            <tr>
+                                <td>{{this.coren}}</td>
+                                <td>{{this.name}}</td>
+                                <td>{{formatDate this.created_at}}</td>
+                                <td>{{formatDate this.updated_at}}</td>
+                                <td>
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-danger btn-sm" 
+                                        onclick="confirmDelete('{{this.coren}}', '{{this.name}}')"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+                {{else}}
+                <div class="text-center py-4">
+                    <p class="text-muted">No professionals found for this institution.</p>
+                    <a href="/manage/professionals/new" class="btn btn-primary">Create Your First Professional</a>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the professional <strong id="professionalName"></strong> with COREN <strong id="professionalCoren"></strong>?</p>
+                <p class="text-danger"><strong>This action cannot be undone.</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="POST" style="display: inline;">
+                    <input type="hidden" name="coren" id="hiddenCoren">
+                    <button type="submit" class="btn btn-danger">Delete Professional</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmDelete(coren, name) {
+    document.getElementById('professionalName').textContent = name;
+    document.getElementById('professionalCoren').textContent = coren;
+    document.getElementById('hiddenCoren').value = coren;
+    document.getElementById('deleteForm').action = '/manage/professionals/' + coren + '/delete';
+    
+    var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    deleteModal.show();
+}
+</script> 

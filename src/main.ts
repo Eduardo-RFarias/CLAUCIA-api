@@ -1,37 +1,42 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConsoleLogger, ValidationPipe } from '@nestjs/common';
-import compression from 'compression';
 import helmet from 'helmet';
-import { AppConfigService } from './config/app-config.service';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
+import session from 'express-session';
+import hbs from 'hbs';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: new ConsoleLogger({ json: process.env.NODE_ENV === 'production' }),
   });
 
-  const appConfigService = app.get(AppConfigService);
+  // Session configuration
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET || 'your-secret-key',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+      },
+    }),
+  );
+
+  // Form parsing middleware
+  app.use(
+    helmet({
+      contentSecurityPolicy: false, // Disable for handlebars inline styles
+    }),
+  );
+
+  app.enableCors();
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-
-  // Only use compression in development (Nginx handles it in production)
-  if (process.env.NODE_ENV !== 'production') {
-    app.use(
-      compression({
-        filter: (req, res) => {
-          // Don't compress images - they're already compressed formats
-          if (req.url?.startsWith('/uploads/')) {
-            return false;
-          }
-          return compression.filter(req, res);
-        },
-      }),
-    );
-  }
-
-  app.use(helmet());
-  app.enableCors();
 
   SwaggerModule.setup(
     'docs',
@@ -48,7 +53,23 @@ async function bootstrap() {
     ),
   );
 
-  await app.listen(appConfigService.port);
+  app.useStaticAssets(join(__dirname, '..', 'public'));
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setViewEngine('hbs');
+
+  // Register handlebars helpers
+  hbs.registerHelper('formatDate', (date: Date) => {
+    if (!date) return '';
+    return new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  });
+
+  await app.listen(process.env.PORT || 3000);
 }
 
 void bootstrap();

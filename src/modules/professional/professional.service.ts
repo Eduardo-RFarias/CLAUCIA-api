@@ -64,6 +64,14 @@ export class ProfessionalService {
     return await this.professionalRepository.find();
   }
 
+  async findByInstitution(institutionName: string): Promise<Professional[]> {
+    return await this.professionalRepository
+      .createQueryBuilder('professional')
+      .innerJoin('professional.institutions', 'institution')
+      .where('institution.name = :institutionName', { institutionName })
+      .getMany();
+  }
+
   async findOne(coren: string): Promise<Professional> {
     const professional = await this.professionalRepository.findOne({
       where: { coren },

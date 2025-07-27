@@ -6,8 +6,6 @@ import { plainToInstance } from 'class-transformer';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('Institutions')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('institutions')
 export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
@@ -27,6 +25,8 @@ export class InstitutionController {
   }
 
   @Get()
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get all institutions' })
   @ApiResponse({ status: HttpStatus.OK, description: 'List of all institutions', type: [InstitutionResponseDto] })
   async findAll(): Promise<InstitutionResponseDto[]> {
@@ -37,6 +37,8 @@ export class InstitutionController {
   }
 
   @Get(':name')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get an institution by name' })
   @ApiParam({ name: 'name', description: 'Institution name', example: 'Hospital São Paulo' })
   @ApiResponse({ status: HttpStatus.OK, description: 'Institution found', type: InstitutionResponseDto })
@@ -47,6 +49,8 @@ export class InstitutionController {
   }
 
   @Patch(':name')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Update an institution' })
   @ApiParam({ name: 'name', description: 'Institution name', example: 'Hospital São Paulo' })
   @ApiResponse({ status: HttpStatus.OK, description: 'Institution updated successfully', type: InstitutionResponseDto })
@@ -61,6 +65,8 @@ export class InstitutionController {
   }
 
   @Get('professional/:coren')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get all institutions for a specific professional' })
   @ApiParam({ name: 'coren', description: 'Professional COREN', example: 'COREN-SP-123456' })
   @ApiResponse({
@@ -76,6 +82,8 @@ export class InstitutionController {
   }
 
   @Delete(':name')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Delete an institution' })
   @ApiParam({ name: 'name', description: 'Institution name', example: 'Hospital São Paulo' })
   @ApiResponse({ status: HttpStatus.OK, description: 'Institution deleted successfully' })
