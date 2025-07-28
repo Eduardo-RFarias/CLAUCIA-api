@@ -11,6 +11,7 @@ import { PatientModule } from './modules/patient/patient.module';
 import { WoundModule } from './modules/wound/wound.module';
 import { SampleModule } from './modules/sample/sample.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { HealthModule } from './modules/health/health.module';
 import { Institution } from './modules/institution/entities/institution.entity';
 import { Professional } from './modules/professional/entities/professional.entity';
 import { Patient } from './modules/patient/entities/patient.entity';
@@ -56,6 +57,7 @@ import { SharedModule } from './shared/shared.module';
     WoundModule,
     SampleModule,
     AuthModule,
+    HealthModule,
     SharedModule,
   ],
   controllers: [],
