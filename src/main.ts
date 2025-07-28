@@ -32,6 +32,8 @@ async function bootstrap() {
         .setVersion('0.0.1')
         .setLicense('MIT', 'https://opensource.org/licenses/MIT')
         .addBearerAuth()
+        .addServer('http://localhost:3000', 'Development Server')
+        .addServer('https://claucia.com.br/api', 'Production Server')
         .build(),
     ),
   );
